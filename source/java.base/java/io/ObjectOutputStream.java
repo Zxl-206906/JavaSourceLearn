@@ -1552,6 +1552,7 @@ public class ObjectOutputStream
     private void defaultWriteFields(Object obj, ObjectStreamClass desc)
         throws IOException
     {
+        // 获取对象的类，并检查是否可以进行默认的序列化
         Class<?> cl = desc.forClass();
         if (cl != null && obj != null && !cl.isInstance(obj)) {
             throw new ClassCastException();
@@ -1559,21 +1560,25 @@ public class ObjectOutputStream
 
         desc.checkDefaultSerialize();
 
+        // 获取对象的基本类型字段的数量，以及这些字段的值
         int primDataSize = desc.getPrimDataSize();
         if (primDataSize > 0) {
             if (primVals == null || primVals.length < primDataSize) {
                 primVals = new byte[primDataSize];
             }
             desc.getPrimFieldValues(obj, primVals);
+            // 将基本类型字段的值写入输出流
             bout.write(primVals, 0, primDataSize, false);
         }
 
         int numObjFields = desc.getNumObjFields();
         if (numObjFields > 0) {
+            // 获取对象的非基本类型字段的值
             ObjectStreamField[] fields = desc.getFields(false);
             Object[] objVals = new Object[numObjFields];
             int numPrimFields = fields.length - objVals.length;
             desc.getObjFieldValues(obj, objVals);
+            // 循环写入对象的非基本类型字段的值
             for (int i = 0; i < objVals.length; i++) {
                 if (extendedDebugInfo) {
                     debugInfoStack.push(
@@ -1581,10 +1586,12 @@ public class ObjectOutputStream
                         fields[numPrimFields + i].getName() + "\", type: \"" +
                         fields[numPrimFields + i].getType() + "\")");
                 }
+                // 调用 writeObject0 方法将对象的非基本类型字段序列化写入输出流
                 try {
                     writeObject0(objVals[i],
                                  fields[numPrimFields + i].isUnshared());
                 } finally {
+                    // 如果在写入过程中出现异常，则将异常包装成 IOException 抛出
                     if (extendedDebugInfo) {
                         debugInfoStack.pop();
                     }

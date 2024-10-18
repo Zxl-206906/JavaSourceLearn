@@ -1,26 +1,6 @@
 /*
  * Copyright (c) 1996, 2023, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
  */
 
 package java.io;
@@ -28,6 +8,11 @@ package java.io;
 import java.util.Objects;
 import jdk.internal.misc.InternalLock;
 
+/*
+* 字节流一般用来处理图像、视频、音频、PPT、Word等类型的文件。字符流一般用于处理纯文本类型的文件，如TXT文件等，但不能处理图像视频等非文本文件。
+* 用一句话说就是：字节流可以处理一切文件，而字符流只能处理纯文本文件。
+字节流本身没有缓冲区，缓冲字节流相对于字节流，效率提升非常高。而字符流本身就带有缓冲区，缓冲字符流相对于字符流效率提升就不是那么大了。
+* */
 /**
  * Abstract class for writing to character streams.  The only methods that a
  * subclass must implement are write(char[], int, int), flush(), and close().
@@ -53,11 +38,13 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
     /**
      * Temporary buffer used to hold writes of strings and single characters
      */
+    // 声明一个 char 类型的数组，用于写入输出流
     private char[] writeBuffer;
 
     /**
      * Size of writeBuffer, must be >= 1
      */
+    // 定义 writeBuffer 数组的大小，必须 >= 1
     private static final int WRITE_BUFFER_SIZE = 1024;
 
     /**
@@ -263,6 +250,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    //将数组 cbuf 中的从 off 位置开始，长度为 len 的字符写入
     public abstract void write(char[] cbuf, int off, int len) throws IOException;
 
     /**
@@ -274,6 +262,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    //写入一个字符
     public void write(String str) throws IOException {
         write(str, 0, str.length());
     }
@@ -304,6 +293,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+
     public void write(String str, int off, int len) throws IOException {
         Object lock = this.lock;
         if (lock instanceof InternalLock locker) {
@@ -451,6 +441,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    //强制刷新，将缓冲区的数据写入
     public abstract void flush() throws IOException;
 
     /**
@@ -461,6 +452,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    //关闭流
     public abstract void close() throws IOException;
 
 }

@@ -158,12 +158,28 @@ public final class StreamEncoder extends Writer {
         implWrite(cbuf, off, len);
     }
 
+    /*
+    *   str：需要写入的字符串。
+        off：从字符串 str 的某个偏移量（off）开始读取。
+        len：读取的字符数长度。
+    这段代码首先检查参数 len 的合法性（不能为负数）。
+    然后创建一个长度为 len 的字符数组 cbuf，并从字符串 str 中提取从偏移量 off 开始，长度为 len 的字符，存储到字符数组 cbuf 中。
+    最后，将这个字符数组交给另一个 write 方法，将其写出。
+    * */
     public void write(String str, int off, int len) throws IOException {
-        /* Check the len before creating a char buffer */
         if (len < 0)
+            //抛出索引越界异常
             throw new IndexOutOfBoundsException();
+        //通过 new char[len] 创建一个长度为 len 的字符数组 cbuf。这个字符数组将用于存储从字符串中提取的字符。
         char[] cbuf = new char[len];
+        //这行代码使用 String 类的 getChars 方法，将字符串 str 中从 off 偏移量开始的 len 个字符提取出来，存入字符数组 cbuf。
         str.getChars(off, off + len, cbuf, 0);
+        //最后调用另一个 write 方法，将存储在字符数组 cbuf 中的字符写出。
+        /**
+         * cbuf：包含了从字符串中提取的字符的字符数组。
+         * 0：从字符数组的起始位置开始写。
+         * len：写出的字符数量，即从数组中写出 len 个字符。
+         * */
         write(cbuf, 0, len);
     }
 

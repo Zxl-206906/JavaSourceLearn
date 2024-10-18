@@ -233,6 +233,7 @@ public class OutputStreamWriter extends Writer {
      *
      * @throws  IOException  If an I/O error occurs
      */
+    // 写入给定字符串中的一部分到输出流中
     public void write(String str, int off, int len) throws IOException {
         se.write(str, off, len);
     }

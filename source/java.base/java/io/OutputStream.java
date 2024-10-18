@@ -108,6 +108,7 @@ public abstract class OutputStream implements Closeable, Flushable {
      *             an {@code IOException} may be thrown if the
      *             output stream has been closed.
      */
+    //写入一个字节，虽然参数是一个 int 类型，但只有低 8 位才会写入，高 24 位会舍弃（这块后面再讲）
     public abstract void write(int b) throws IOException;
 
     /**
@@ -160,6 +161,7 @@ public abstract class OutputStream implements Closeable, Flushable {
      *             {@code len} is negative, or {@code len} is greater than
      *             {@code b.length - off}
      */
+    //将数组 b 中的从 off 位置开始，长度为 len 的字节写入
     public void write(byte[] b, int off, int len) throws IOException {
         Objects.checkFromIndexSize(off, len, b.length);
         // len == 0 condition implicitly handled by loop bounds
@@ -187,6 +189,7 @@ public abstract class OutputStream implements Closeable, Flushable {
      *
      * @throws     IOException  if an I/O error occurs.
      */
+    //强制刷新，将缓冲区的数据写入
     public void flush() throws IOException {
     }
 
@@ -201,6 +204,7 @@ public abstract class OutputStream implements Closeable, Flushable {
      *
      * @throws     IOException  if an I/O error occurs.
      */
+    //关闭流
     public void close() throws IOException {
     }
 

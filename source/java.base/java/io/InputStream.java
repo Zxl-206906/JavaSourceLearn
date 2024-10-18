@@ -177,6 +177,7 @@ public abstract class InputStream implements Closeable {
      *             stream is reached.
      * @throws     IOException  if an I/O error occurs.
      */
+    //读取数据
     public abstract int read() throws IOException;
 
     /**
@@ -539,6 +540,7 @@ public abstract class InputStream implements Closeable {
      * @throws     IOException  if an I/O error occurs.
      * @see        java.io.InputStream#skipNBytes(long)
      */
+    //跳过制定个数的字节
     public long skip(long n) throws IOException {
         long remaining = n;
         int nr;
@@ -650,6 +652,7 @@ public abstract class InputStream implements Closeable {
      *             {@code 0} when it reaches the end of the input stream.
      * @throws     IOException if an I/O error occurs.
      */
+    //返回可读的字节数
     public int available() throws IOException {
         return 0;
     }
@@ -664,6 +667,8 @@ public abstract class InputStream implements Closeable {
      *
      * @throws     IOException  if an I/O error occurs.
      */
+
+    //关闭流，释放资源
     public void close() throws IOException {}
 
     /**

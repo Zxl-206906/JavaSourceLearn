@@ -235,6 +235,7 @@ public abstract class Reader implements Readable, Closeable {
      *
      * @throws     IOException  If an I/O error occurs
      */
+    //读取单个字符
     public int read() throws IOException {
         char[] cb = new char[1];
         if (read(cb, 0, 1) == -1)
@@ -288,6 +289,7 @@ public abstract class Reader implements Readable, Closeable {
      *             or {@code len} is greater than {@code cbuf.length - off}
      * @throws     IOException  If an I/O error occurs
      */
+    //第 off 位置开始读，读取 len 长度的字符，然后放入数组 b 中
     public abstract int read(char[] cbuf, int off, int len) throws IOException;
 
     /** Maximum skip-buffer size */
@@ -309,6 +311,7 @@ public abstract class Reader implements Readable, Closeable {
      * @throws     IllegalArgumentException  If {@code n} is negative.
      * @throws     IOException  If an I/O error occurs
      */
+    //跳过指定个数的字符
     public long skip(long n) throws IOException {
         if (n < 0L)
             throw new IllegalArgumentException("skip value is negative");
@@ -407,6 +410,7 @@ public abstract class Reader implements Readable, Closeable {
      *
      * @throws     IOException  If an I/O error occurs
      */
+    //关闭流 释放资源
      public abstract void close() throws IOException;
 
     /**

@@ -1686,16 +1686,19 @@ public final class ObjectStreamClass implements Serializable {
      * serializable fields exist, NO_FIELDS is returned.
      */
     private static ObjectStreamField[] getDefaultSerialFields(Class<?> cl) {
+        // 获取该类中声明的所有字段
         Field[] clFields = cl.getDeclaredFields();
         ArrayList<ObjectStreamField> list = new ArrayList<>();
         int mask = Modifier.STATIC | Modifier.TRANSIENT;
 
+        // 遍历所有字段，将非 static 和 transient 的字段添加到 list 中
         for (int i = 0; i < clFields.length; i++) {
             if ((clFields[i].getModifiers() & mask) == 0) {
                 list.add(new ObjectStreamField(clFields[i], false, true));
             }
         }
         int size = list.size();
+        // 如果 list 为空，则返回一个空的 ObjectStreamField 数组，否则将 list 转换为 ObjectStreamField 数组并返回
         return (size == 0) ? NO_FIELDS :
             list.toArray(new ObjectStreamField[size]);
     }
